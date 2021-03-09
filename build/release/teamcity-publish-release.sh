@@ -35,7 +35,7 @@ fi
 # TODO: implement dry run
 docker_registry="docker.io/roachrail"
 docker_image_repository="cockroachdb-operator"
-git_repo_for_tag="roachrail/cockroachdb-operator"
+git_repo_for_tag="roachrail/cockroach-operator"
 tc_end_block "Variable Setup"
 
 
