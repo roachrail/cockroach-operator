@@ -55,8 +55,8 @@ make \
 tc_end_block "Make and push docker images"
 
 
-# tc_start_block "Push release tag to GitHub"
-# github_ssh_key="${GITHUB_COCKROACH_TEAMCITY_PRIVATE_SSH_KEY}"
-# configure_git_ssh_key
-# push_to_git "ssh://git@github.com/${git_repo_for_tag}.git" "$build_name"
-# tc_end_block "Push release tag to GitHub"
+tc_start_block "Push release tag to GitHub"
+github_ssh_key="${GITHUB_COCKROACH_TEAMCITY_PRIVATE_SSH_KEY}"
+configure_git_ssh_key
+push_to_git "ssh://git@github.com/${git_repo_for_tag}.git" "$build_name"
+tc_end_block "Push release tag to GitHub"
