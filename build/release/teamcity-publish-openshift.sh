@@ -45,7 +45,7 @@ tc_end_block "Variable Setup"
 
 
 tc_start_block "Make and push docker images"
-docker pull "$docker_registry/docker_image_repository:$build_name"
+docker pull "$docker_registry/$docker_image_repository:$build_name"
 docker tag "$docker_registry/$docker_image_repository:$build_name" "$dst_docker_registry/$dst_docker_image_repository:$build_name"
 # TODO: openshift credentials
 configure_docker_creds
