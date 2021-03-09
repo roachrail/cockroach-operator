@@ -138,7 +138,7 @@ k8s_defaults(
 )
 
 container_pull(
-    name = "operator_iamge_pristine",
+    name = "operator_image_dockerhub",
     registry = "{STABLE_DOCKER_REGISTRY}",
     repository = "{STABLE_IMAGE_REPOSITORY}",
     tag = "{STABLE_DOCKER_TAG}",
