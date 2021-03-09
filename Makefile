@@ -21,6 +21,8 @@
 
 DOCKER_REGISTRY?=cockroachdb
 DOCKER_IMAGE_REPOSITORY?=cockroachdb-operator
+DST_DOCKER_REGISTRY?=todo
+DST_DOCKER_IMAGE_REPOSITORY?=todo
 # Default bundle image tag
 APP_VERSION?=v1.6.12-rc.2
 
@@ -105,6 +107,20 @@ release/image:
 	bazel run --stamp --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 \
 		//:push_operator_image 
 
+.PHONY: release/openshift
+release/openshift:
+	DOCKER_REGISTRY=$(DOCKER_REGISTRY) \
+	DOCKER_IMAGE_REPOSITORY=$(DOCKER_IMAGE_REPOSITORY) \
+	APP_VERSION=$(APP_VERSION) \
+	DST_DOCKER_REGISTRY=$(DST_DOCKER_REGISTRY) \
+	DST_DOCKER_REPOSITORY=$(DST_DOCKER_REPOSITORY) \
+	RH_BUNDLE_IMAGE_REPOSITORY=$(RH_BUNDLE_IMAGE_REPOSITORY) \
+	RH_BUNDLE_IMAGE_TAG=$(RH_BUNDLE_VERSION) \
+	RH_BUNDLE_REGISTRY=$(RH_BUNDLE_REGISTRY) \
+	RH_BUNDLE_VERSION=$(RH_BUNDLE_VERSION) \
+	RH_DEPLOY_PATH=$(RH_DEPLOY_FULL_PATH) \
+	bazel run --stamp --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 \
+	//:copy_operator_image //:push_operator_bundle_image
 #
 # Dev target that updates bazel files and dependecies
 #

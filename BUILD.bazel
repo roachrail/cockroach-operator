@@ -26,6 +26,22 @@ container_push(
     tag = "{STABLE_DOCKER_TAG}",
 )
 
+container_pull(
+    name = "operator_iamge_pristine",
+    registry = "{STABLE_DOCKER_REGISTRY}",
+    repository = "{STABLE_IMAGE_REPOSITORY}",
+    tag = "{STABLE_DOCKER_TAG}",
+)
+
+container_push(
+    name = "copy_operator_image",
+    format = "Docker",
+    image = ":operator_iamge_pristine",
+    registry = "{DST_DOCKER_REGISTRY}",
+    repository = "{DST_DOCKER_REPOSITORY}",
+    tag = "{STABLE_DOCKER_TAG}",
+)
+
 container_push(
     name = "push_operator_bundle_image",
     format = "Docker",

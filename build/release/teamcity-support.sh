@@ -32,6 +32,10 @@ docker_login() {
   echo "${DOCKER_ACCESS_TOKEN}" | docker login --username "${DOCKER_ID}" --password-stdin
 }
 
+docker_login_with_redhat() {
+  echo "${REDHAT_REGISTRY_KEY}" | docker login --username unused --password-stdin $rhel_registry
+}
+
 configure_docker_creds() {
   # Work around headless d-bus problem by forcing docker to use
   # plain-text credentials for dockerhub.
