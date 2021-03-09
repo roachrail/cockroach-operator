@@ -2,7 +2,7 @@
 # gazelle:proto disable_global
 # gazelle:exclude docs/generated/reference/generate/json_swagger
 
-load("@io_bazel_rules_docker//container:container.bzl", "container_push")
+load("@io_bazel_rules_docker//container:container.bzl", "container_push", "container_pull")
 
 # export WORKSPACE so workspace_binary rules can be used outside the root
 exports_files([
