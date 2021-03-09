@@ -136,11 +136,3 @@ k8s_defaults(
     # You are able to override the default registry by setting the env variable IMAGE_REGISTRY
     image_chroot = "{IMAGE_REGISTRY}",
 )
-
-container_pull(
-    name = "operator_image_dockerhub",
-    registry = "$(DOCKER_REGISTRY)",
-    repository = "$(DOCKER_IMAGE_REPOSITORY)",
-    tag = "$(DOCKER_TAG)",
-)
-

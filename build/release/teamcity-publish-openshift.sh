@@ -45,18 +45,17 @@ tc_end_block "Variable Setup"
 
 
 tc_start_block "Make and push docker images"
+docker pull "$docker_registry/docker_image_repository:$build_name"
+docker tag "$docker_registry/$docker_image_repository:$build_name" "$dst_docker_registry/$dst_docker_image_repository:$build_name"
 # TODO: openshift credentials
 configure_docker_creds
 docker_login_with_redhat
+docker push "$dst_docker_registry/$dst_docker_image_repository:$build_name"
+
 make \
-  DOCKER_REGISTRY="$docker_registry" \
-  DOCKER_IMAGE_REPOSITORY="$docker_image_repository" \
-  APP_VERSION="${build_name}" \
-  DST_DOCKER_REGISTRY=$dst_docker_registry \
-  DST_DOCKER_REPOSITORY=$dst_docker_image_repository \
   RH_BUNDLE_IMAGE_REPOSITORY=$bundle_docker_image_repository \
   RH_BUNDLE_IMAGE_TAG=$build_name \
   RH_BUNDLE_REGISTRY=$docker_registry \
   RH_BUNDLE_VERSION=$build_name \
-  release/openshift
+  release/bundle-image
 tc_end_block "Make and push docker images"
