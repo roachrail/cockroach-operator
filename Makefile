@@ -120,6 +120,9 @@ release/openshift:
 	RH_BUNDLE_VERSION=$(RH_BUNDLE_VERSION) \
 	RH_DEPLOY_PATH=$(RH_DEPLOY_FULL_PATH) \
 	bazel run --stamp --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 \
+	--define DOCKER_REGISTRY=$(DOCKER_REGISTRY) \
+	--define DOCKER_IMAGE_REPOSITORY=$(DOCKER_IMAGE_REPOSITORY) \
+	--define DOCKER_TAG=$(APP_VERSION) \
 	//:copy_operator_image //:push_operator_bundle_image
 #
 # Dev target that updates bazel files and dependecies
