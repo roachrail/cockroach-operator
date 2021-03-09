@@ -2,7 +2,7 @@
 # gazelle:proto disable_global
 # gazelle:exclude docs/generated/reference/generate/json_swagger
 
-load("@io_bazel_rules_docker//container:container.bzl", "container_push", "container_pull")
+load("@io_bazel_rules_docker//container:container.bzl", "container_push")
 
 # export WORKSPACE so workspace_binary rules can be used outside the root
 exports_files([
@@ -21,13 +21,6 @@ container_push(
     name = "push_operator_image",
     format = "Docker",
     image = "//cmd/cockroach-operator:operator_image",
-    registry = "{STABLE_DOCKER_REGISTRY}",
-    repository = "{STABLE_IMAGE_REPOSITORY}",
-    tag = "{STABLE_DOCKER_TAG}",
-)
-
-container_pull(
-    name = "operator_iamge_pristine",
     registry = "{STABLE_DOCKER_REGISTRY}",
     repository = "{STABLE_IMAGE_REPOSITORY}",
     tag = "{STABLE_DOCKER_TAG}",

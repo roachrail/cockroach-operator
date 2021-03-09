@@ -136,3 +136,11 @@ k8s_defaults(
     # You are able to override the default registry by setting the env variable IMAGE_REGISTRY
     image_chroot = "{IMAGE_REGISTRY}",
 )
+
+container_pull(
+    name = "operator_iamge_pristine",
+    registry = "{STABLE_DOCKER_REGISTRY}",
+    repository = "{STABLE_IMAGE_REPOSITORY}",
+    tag = "{STABLE_DOCKER_TAG}",
+)
+
