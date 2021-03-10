@@ -57,7 +57,9 @@ tc_end_block "Variable Setup"
 
 
 tc_start_block "Tag the release"
-git tag "${build_name}"
+if [[ -z "${DRY_RUN}" ]] ; then
+  git tag "${build_name}"
+fi
 tc_end_block "Tag the release"
 
 
@@ -73,7 +75,9 @@ tc_end_block "Make and push docker images"
 
 
 tc_start_block "Push release tag to GitHub"
-github_ssh_key="${GITHUB_COCKROACH_TEAMCITY_PRIVATE_SSH_KEY}"
-configure_git_ssh_key
-push_to_git "ssh://git@github.com/${git_repo_for_tag}.git" "$build_name"
+if [[ -z "${DRY_RUN}" ]] ; then
+  github_ssh_key="${GITHUB_COCKROACH_TEAMCITY_PRIVATE_SSH_KEY}"
+  configure_git_ssh_key
+  push_to_git "ssh://git@github.com/${git_repo_for_tag}.git" "$build_name"
+fi
 tc_end_block "Push release tag to GitHub"
