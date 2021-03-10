@@ -29,11 +29,11 @@ tc_end_block() {
 }
 
 docker_login() {
-  echo "${DOCKER_ACCESS_TOKEN}" | docker login --username "${DOCKER_ID}" --password-stdin
+  echo "${OPERATOR_DOCKER_ACCESS_TOKEN}" | docker login --username "${OPERATOR_DOCKER_ID}" --password-stdin
 }
 
 docker_login_with_redhat() {
-  echo "${REDHAT_REGISTRY_KEY}" | docker login --username "${REDHAT_DOCKER_ID}" --password-stdin $rhel_registry
+  echo "${OPERATOR_REDHAT_REGISTRY_KEY}" | docker login --username "${OPERATOR_REDHAT_DOCKER_ID}" --password-stdin $rhel_registry
 }
 
 configure_docker_creds() {
