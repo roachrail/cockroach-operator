@@ -66,6 +66,12 @@ tc_end_block "Tag the release"
 tc_start_block "Make and push docker images"
 configure_docker_creds
 docker_login
+
+if docker_image_exists "$docker_registry/$docker_image_repository:$build_name"; then
+  echo "Docker image $docker_registry/$docker_image_repository:$build_name already exists"
+  exit 1
+fi
+
 make \
   DOCKER_REGISTRY="$docker_registry" \
   DOCKER_IMAGE_REPOSITORY="$docker_image_repository" \
