@@ -28,14 +28,31 @@ build_name="$(echo "${NAME}" | grep -E -o '^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(
 version=$(echo ${build_name} | sed -e 's/^v//' | cut -d- -f 1)
 
 if [[ -z "$build_name" ]] ; then
-    echo "Invalid NAME \"${NAME}\". Must be of the format \"vMAJOR.MINOR.PATCH(-PRERELEASE)?\"."
-    exit 1
+  echo "Invalid NAME \"${NAME}\". Must be of the format \"vMAJOR.MINOR.PATCH(-PRERELEASE)?\"."
+  exit 1
 fi
 
-# TODO: implement dry run
-docker_registry="docker.io/roachrail"
-docker_image_repository="cockroachdb-operator"
-git_repo_for_tag="roachrail/cockroach-operator"
+if [[ -z "${DRY_RUN}" ]] ; then
+  ocker_registry="docker.io/roachrail"
+  docker_image_repository="cockroachdb-operator"
+  git_repo_for_tag="roachrail/cockroach-operator"
+else
+  # TODO: Add dry-run values
+  docker_registry="docker.io/roachrail"
+  docker_image_repository="cockroachdb-operator"
+  git_repo_for_tag="roachrail/cockroach-operator"
+  if [[ -z "$(echo ${build_name} | grep -E -o '^v[0-9]+\.[0-9]+\.[0-9]+$')" ]] ; then
+    # Using `.` to match how we usually format the pre-release portion of the
+    # version string using '.' separators.
+    # ex: v20.2.0-rc.2.dryrun
+    build_name="${build_name}.dryrun"
+  else
+    # Using `-` to put dryrun in the pre-release portion of the version string.
+    # ex: v20.2.0-dryrun
+    build_name="${build_name}-dryrun"
+  fi
+fi
+
 tc_end_block "Variable Setup"
 
 

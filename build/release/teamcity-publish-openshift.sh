@@ -32,24 +32,35 @@ if [[ -z "$build_name" ]] ; then
     exit 1
 fi
 
-# TODO: switch to openshift repos
-# TODO: implement dry run
-docker_registry="docker.io/roachrail"
-dst_docker_registry="docker.io/roachrail"
-docker_image_repository="cockroachdb-operator"
-dst_docker_image_repository="cockroachdb-operator-openshift"
-bundle_docker_image_repository="cockroachdb-operator-openshift-bundle"
 # TODO
 rhel_registry=
+# rhel_registry="scan.connect.redhat.com"
+
+# TODO: switch to openshift repos
+if [[ -z "${DRY_RUN}" ]] ; then
+  docker_registry="docker.io/roachrail"
+  dst_docker_registry="docker.io/roachrail"
+  docker_image_repository="cockroachdb-operator"
+  dst_docker_image_repository="cockroachdb-operator-openshift"
+  bundle_docker_image_repository="cockroachdb-operator-openshift-bundle"
+else
+  # TODO: switch to dry run repos
+  docker_registry="docker.io/roachrail"
+  dst_docker_registry="docker.io/roachrail"
+  docker_image_repository="cockroachdb-operator"
+  dst_docker_image_repository="cockroachdb-operator-openshift"
+  bundle_docker_image_repository="cockroachdb-operator-openshift-bundle"
+  build_name="${build_name}-dryrun"
+fi
 tc_end_block "Variable Setup"
 
 
 tc_start_block "Make and push docker images"
-docker pull "$docker_registry/$docker_image_repository:$build_name"
-docker tag "$docker_registry/$docker_image_repository:$build_name" "$dst_docker_registry/$dst_docker_image_repository:$build_name"
-# TODO: openshift credentials
 configure_docker_creds
 docker_login_with_redhat
+
+docker pull "$docker_registry/$docker_image_repository:$build_name"
+docker tag "$docker_registry/$docker_image_repository:$build_name" "$dst_docker_registry/$dst_docker_image_repository:$build_name"
 docker push "$dst_docker_registry/$dst_docker_image_repository:$build_name"
 
 make \
@@ -58,4 +69,5 @@ make \
   RH_BUNDLE_REGISTRY=$docker_registry \
   RH_BUNDLE_VERSION=$build_name \
   release/bundle-image
+
 tc_end_block "Make and push docker images"
