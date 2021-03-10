@@ -59,6 +59,12 @@ tc_start_block "Make and push docker images"
 configure_docker_creds
 docker_login_with_redhat
 
+# sanity check
+if docker_image_exists "$dst_docker_registry/$dst_docker_image_repository:$build_name"; then
+  echo "Docker image $dst_docker_registry/$dst_docker_image_repository:$build_name already exists"
+  exit 1
+fi
+
 docker pull "$docker_registry/$docker_image_repository:$build_name"
 docker tag "$docker_registry/$docker_image_repository:$build_name" "$dst_docker_registry/$dst_docker_image_repository:$build_name"
 docker push "$dst_docker_registry/$dst_docker_image_repository:$build_name"
