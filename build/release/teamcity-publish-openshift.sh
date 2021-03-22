@@ -51,8 +51,8 @@ tc_end_block "Variable Setup"
 
 
 tc_start_block "Make and push docker images"
-configure_docker_creds
-docker_login_with_redhat
+echo configure_docker_creds
+echo docker_login_with_redhat
 
 # sanity check
 if docker_image_exists "$rhel_registry/$operator_rhel_docker_image_repository:$build_name"; then
@@ -63,11 +63,11 @@ if docker_image_exists "$rhel_registry/$operator_rhel_docker_image_repository:$b
   echo "Forcing docker push..."
 fi
 
-docker pull "$src_docker_registry/$src_docker_image_repository:$build_name"
-docker tag "$src_docker_registry/$src_docker_image_repository:$build_name" "$rhel_registry/$operator_rhel_docker_image_repository:$build_name"
-docker push "$rhel_registry/$operator_rhel_docker_image_repository:$build_name"
+echo docker pull "$src_docker_registry/$src_docker_image_repository:$build_name"
+echo docker tag "$src_docker_registry/$src_docker_image_repository:$build_name" "$rhel_registry/$operator_rhel_docker_image_repository:$build_name"
+echo docker push "$rhel_registry/$operator_rhel_docker_image_repository:$build_name"
 
-make \
+echo make \
   RH_BUNDLE_IMAGE_REPOSITORY=$bundle_rhel_docker_image_repository \
   RH_BUNDLE_IMAGE_TAG=$build_name \
   RH_BUNDLE_REGISTRY=$rhel_registry \
