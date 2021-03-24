@@ -54,8 +54,7 @@ tc_end_block "Variable Setup"
 
 tc_start_block "Make and push docker images"
 configure_docker_creds
-# TODO: docker_login_with_redhat
-docker_login
+docker_login_with_redhat
 
 # sanity check
 if docker_image_exists "$rhel_registry/$operator_rhel_docker_image_repository:$build_name"; then
