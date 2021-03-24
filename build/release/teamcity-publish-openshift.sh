@@ -39,6 +39,7 @@ fi
 # bundle_rhel_docker_image_repository="ospid-857fe786-3eb7-4508-aafd-cc74c1b1dc24"
 
 rhel_registry="docker.io/roachrail"
+rhel_registry_TMP=
 src_docker_registry="docker.io/roachrail"
 operator_rhel_docker_image_repository="cockroachdb-operator-openshift"
 bundle_rhel_docker_image_repository="cockroachdb-operator-openshift-bundle"

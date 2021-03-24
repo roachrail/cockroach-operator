@@ -33,7 +33,8 @@ docker_login() {
 }
 
 docker_login_with_redhat() {
-  echo "${OPERATOR_REDHAT_REGISTRY_KEY}" | docker login --username "${OPERATOR_REDHAT_DOCKER_ID}" --password-stdin $rhel_registry
+  # TODO: fixme
+  echo "${OPERATOR_REDHAT_REGISTRY_KEY}" | docker login --username "${OPERATOR_REDHAT_DOCKER_ID}" --password-stdin $rhel_registry_TMP
 }
 
 configure_docker_creds() {
