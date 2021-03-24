@@ -179,10 +179,10 @@ dev/syncdeps:
 
 .PHONY: release/versionbump
 release/versionbump:
-	$(MAKE) CHANNEL=stable IS_DEFAULT_CHANNEL=1 release/update-pkg-manifest
-	sed -i -e 's,\(image: cockroachdb/cockroach-operator:\).*,\1$(APP_VERSION),' manifests/operator.yaml
-	git add .
-	git commit -m "Bump version to $(VERSION)"
+	$(MAKE) CHANNEL=stable IS_DEFAULT_CHANNEL=1 release/update-pkg-manifest && \
+	sed -i -e 's,\(image: cockroachdb/cockroach-operator:\).*,\1$(APP_VERSION),' manifests/operator.yaml && \
+	git add . && \
+	git commit -m "Bump version to $(VERSION)" && \
 	git tag $(APP_VERSION)
 
 
