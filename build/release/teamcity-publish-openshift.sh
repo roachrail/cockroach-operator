@@ -31,7 +31,7 @@ if [[ -z "$build_name" ]] ; then
     exit 1
 fi
 
-# TODO
+# TODO(rail)
 # rhel_registry="scan.connect.redhat.com"
 # src_docker_registry="docker.io/cockroachdb"
 # operator_rhel_docker_image_repository="ospid-cf721588-ad8a-4618-938c-5191c5e10ae4"
