@@ -65,8 +65,8 @@ tc_end_block "Tag the release"
 
 
 tc_start_block "Make and push docker images"
-echo configure_docker_creds
-echo docker_login
+configure_docker_creds
+docker_login
 
 if docker_image_exists "$docker_registry/$docker_image_repository:$build_name"; then
   echo "Docker image $docker_registry/$docker_image_repository:$build_name already exists"
@@ -76,7 +76,7 @@ if docker_image_exists "$docker_registry/$docker_image_repository:$build_name"; 
   echo "Forcing docker push..."
 fi
 
-echo make \
+make \
   DOCKER_REGISTRY="$docker_registry" \
   DOCKER_IMAGE_REPOSITORY="$docker_image_repository" \
   APP_VERSION="${build_name}" \
@@ -87,7 +87,7 @@ tc_end_block "Make and push docker images"
 tc_start_block "Push release tag to GitHub"
 if [[ -z "${DRY_RUN}" ]] ; then
   github_ssh_key="${GITHUB_COCKROACH_TEAMCITY_PRIVATE_SSH_KEY}"
-  echo configure_git_ssh_key
-  echo push_to_git "ssh://git@github.com/${git_repo_for_tag}.git" "$build_name"
+  configure_git_ssh_key
+  push_to_git "ssh://git@github.com/${git_repo_for_tag}.git" "$build_name"
 fi
 tc_end_block "Push release tag to GitHub"
