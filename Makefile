@@ -179,6 +179,8 @@ dev/syncdeps:
 release/versionbump: release/update-pkg-manifest
 	sed -i -e 's,\(image: cockroachdb/cockroach-operator:\).*,\1$(APP_VERSION),' manifests/operator.yaml
 	git add .
+	git commit -m "Bump version to $(VERSION)"
+	git tag $(APP_VERSION)
 
 
 .PHONY: release/image
