@@ -25,23 +25,24 @@ tc_start_block "Variable Setup"
 # https://github.com/cockroachdb/cockroach/blob/4c6864b44b9044874488cfedee3a31e6b23a6790/pkg/util/version/version.go#L75
 build_name="$(echo "${TC_BUILD_BRANCH}" | grep -E -o '^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[-.0-9A-Za-z]+)?$')"
 #                                         ^major           ^minor           ^patch         ^preRelease
-version=$(echo ${build_name} | sed -e 's/^v//' | cut -d- -f 1)
 
 if [[ -z "$build_name" ]] ; then
     echo "Invalid TC_BUILD_BRANCH \"${TC_BUILD_BRANCH}\". Must be of the format \"vMAJOR.MINOR.PATCH(-PRERELEASE)?\"."
     exit 1
 fi
 
-rhel_registry="scan.connect.redhat.com"
-src_docker_registry="docker.io/cockraochdb"
-operator_rhel_docker_image_repository="ospid-cf721588-ad8a-4618-938c-5191c5e10ae4"
-bundle_rhel_docker_image_repository="ospid-857fe786-3eb7-4508-aafd-cc74c1b1dc24"
+# TODO
+# rhel_registry="scan.connect.redhat.com"
+# src_docker_registry="docker.io/cockroachdb"
+# operator_rhel_docker_image_repository="ospid-cf721588-ad8a-4618-938c-5191c5e10ae4"
+# bundle_rhel_docker_image_repository="ospid-857fe786-3eb7-4508-aafd-cc74c1b1dc24"
 
-# TODO: switch to openshift repos
+rhel_registry="docker.io/roachrail"
+src_docker_registry="docker.io/roachrail"
+operator_rhel_docker_image_repository="cockroachdb-operator-openshift"
+bundle_rhel_docker_image_repository="cockroachdb-operator-openshift-bundle"
+
 if [[ -z "${DRY_RUN}" ]] ; then
-  # TODO: enable non dry-run when ready to merge
-  echo "Dry run only please"
-  exit 1
   src_docker_image_repository="cockroachdb-operator"
 else
   src_docker_image_repository="cockroachdb-operator-misc"

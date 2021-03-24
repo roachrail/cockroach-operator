@@ -21,7 +21,7 @@
 DOCKER_REGISTRY?=cockroachdb
 DOCKER_IMAGE_REPOSITORY?=cockroachdb-operator
 # Default bundle image tag
-APP_VERSION?=v1.6.12-rc.2
+APP_VERSION?=v1.6.13
 GCP_PROJECT?=chris-love-operator-playground
 GCP_ZONE?=us-central1-a
 CLUSTER_NAME?=bazel-test
@@ -189,17 +189,17 @@ release/image:
 #RED HAT IMAGE BUNDLE
 RH_BUNDLE_REGISTRY?=registry.connect.redhat.com/cockroachdb
 RH_BUNDLE_IMAGE_REPOSITORY?=cockroachdb-operator-bundle
-RH_BUNDLE_VERSION?=1.2.5
+RH_BUNDLE_VERSION?=1.6.13
 RH_DEPLOY_PATH="deploy/certified-metadata-bundle"
 RH_DEPLOY_FULL_PATH="$(RH_DEPLOY_PATH)/cockroach-operator/"
 RH_COCKROACH_DATABASE_IMAGE=registry.connect.redhat.com/cockroachdb/cockroach:v20.2.5
-RH_OPERATOR_IMAGE?=registry.connect.redhat.com/cockroachdb/cockroachdb-operator:v1.6.12-rc.1
+RH_OPERATOR_IMAGE?=registry.connect.redhat.com/cockroachdb/cockroachdb-operator:v1.6.13
 
 # Generate package manifests.
 # Options for "packagemanifests".
-CHANNEL?=beta
+CHANNEL?=stable
 FROM_BUNDLE_VERSION?=1.0.1
-IS_CHANNEL_DEFAULT?=0
+IS_CHANNEL_DEFAULT?=1
 
 ifneq ($(origin FROM_BUNDLE_VERSION), undefined)
 PKG_FROM_VERSION := --from-version=$(FROM_BUNDLE_VERSION)
