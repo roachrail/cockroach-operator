@@ -21,7 +21,7 @@
 DOCKER_REGISTRY?=cockroachdb
 DOCKER_IMAGE_REPOSITORY?=cockroachdb-operator
 VERSION?=$(shell cat version.txt)
-APP_VERSION?="v$(VERSION)"
+APP_VERSION? = v$(VERSION)
 # Strip the "-rc" suffix, because it's not a valid openshift version pattern
 VERSION_NO_SUFFIX = $(shell echo $(VERSION) | sed 's,-.*,,')
 GCP_PROJECT?=chris-love-operator-playground
