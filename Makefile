@@ -20,8 +20,10 @@
 # values used in workspace-status.sh
 DOCKER_REGISTRY?=cockroachdb
 DOCKER_IMAGE_REPOSITORY?=cockroachdb-operator
-# Default bundle image tag
-APP_VERSION?=v1.6.12-rc.2
+VERSION?=$(shell cat version.txt)
+APP_VERSION?="v$(VERSION)"
+# Strip the "-rc" suffix, because it's not a valid openshift version pattern
+VERSION_NO_SUFFIX = $(shell echo $(VERSION) | sed 's,-.*,,')
 GCP_PROJECT?=chris-love-operator-playground
 GCP_ZONE?=us-central1-a
 CLUSTER_NAME?=bazel-test
@@ -174,6 +176,16 @@ dev/syncdeps:
 #
 # Release targets
 #
+
+.PHONY: release/versionbump
+release/versionbump:
+	$(MAKE) CHANNEL=stable IS_DEFAULT_CHANNEL=1 release/update-pkg-manifest
+	sed -i -e 's,\(image: cockroachdb/cockroach-operator:\).*,\1$(APP_VERSION),' manifests/operator.yaml
+	git add .
+	git commit -m "Bump version to $(VERSION)"
+	git tag $(APP_VERSION)
+
+
 .PHONY: release/image
 release/image:
 	DOCKER_REGISTRY=$(DOCKER_REGISTRY) \
@@ -189,11 +201,11 @@ release/image:
 #RED HAT IMAGE BUNDLE
 RH_BUNDLE_REGISTRY?=registry.connect.redhat.com/cockroachdb
 RH_BUNDLE_IMAGE_REPOSITORY?=cockroachdb-operator-bundle
-RH_BUNDLE_VERSION?=1.2.5
+RH_BUNDLE_VERSION?=$(VERSION_NO_SUFFIX)
 RH_DEPLOY_PATH="deploy/certified-metadata-bundle"
 RH_DEPLOY_FULL_PATH="$(RH_DEPLOY_PATH)/cockroach-operator/"
 RH_COCKROACH_DATABASE_IMAGE=registry.connect.redhat.com/cockroachdb/cockroach:v20.2.5
-RH_OPERATOR_IMAGE?=registry.connect.redhat.com/cockroachdb/cockroachdb-operator:v1.6.12-rc.1
+RH_OPERATOR_IMAGE?=registry.connect.redhat.com/cockroachdb/cockroachdb-operator:$(VERSION_NO_SUFFIX)
 
 # Generate package manifests.
 # Options for "packagemanifests".
