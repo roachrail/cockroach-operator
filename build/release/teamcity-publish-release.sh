@@ -18,7 +18,8 @@ set -euxo pipefail
 source "$(dirname "${0}")/teamcity-support.sh"
 
 tc_start_block "Variable Setup"
-VERSION=$(cat version.txt)
+version_file="$(dirname "${0}")/../../version.txt"
+VERSION=$(cat $version_file)
 # Matching the version name regex from within the cockroach code except
 # for the `metadata` part at the end because Docker tags don't support
 # `+` in the tag name.
