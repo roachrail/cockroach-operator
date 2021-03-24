@@ -20,8 +20,8 @@
 # values used in workspace-status.sh
 DOCKER_REGISTRY?=cockroachdb
 DOCKER_IMAGE_REPOSITORY?=cockroachdb-operator
-# Default bundle image tag
-APP_VERSION?=$(shell cat version.txt)
+VERSION?=$(shell cat version.txt)
+APP_VERSION?="v$(VERSION)"
 GCP_PROJECT?=chris-love-operator-playground
 GCP_ZONE?=us-central1-a
 CLUSTER_NAME?=bazel-test
@@ -200,7 +200,7 @@ RH_BUNDLE_VERSION?=$(shell echo $(APP_VERSION) | sed 's/^v//')
 RH_DEPLOY_PATH="deploy/certified-metadata-bundle"
 RH_DEPLOY_FULL_PATH="$(RH_DEPLOY_PATH)/cockroach-operator/"
 RH_COCKROACH_DATABASE_IMAGE=registry.connect.redhat.com/cockroachdb/cockroach:v20.2.5
-RH_OPERATOR_IMAGE?=registry.connect.redhat.com/cockroachdb/cockroachdb-operator:$(APP_VERSION)
+RH_OPERATOR_IMAGE?=registry.connect.redhat.com/cockroachdb/cockroachdb-operator:$(VERSION)
 
 # Generate package manifests.
 # Options for "packagemanifests".
