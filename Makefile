@@ -177,7 +177,7 @@ dev/syncdeps:
 
 .PHONY: release/versionbump
 release/versionbump: release/update-pkg-manifest
-	sed -ie 's,\(image: cockroachdb/cockroach-operator:\).*,\1$(APP_VERSION),' manifests/operator.yaml
+	sed -i -e 's,\(image: cockroachdb/cockroach-operator:\).*,\1$(APP_VERSION),' manifests/operator.yaml
 	git add .
 
 
