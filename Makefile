@@ -21,7 +21,7 @@
 DOCKER_REGISTRY?=cockroachdb
 DOCKER_IMAGE_REPOSITORY?=cockroachdb-operator
 # Default bundle image tag
-APP_VERSION?=v1.6.13
+APP_VERSION?=$(shell cat version.txt)
 GCP_PROJECT?=chris-love-operator-playground
 GCP_ZONE?=us-central1-a
 CLUSTER_NAME?=bazel-test
@@ -174,6 +174,13 @@ dev/syncdeps:
 #
 # Release targets
 #
+
+.PHONY: release/versionbump
+release/versionbump: release/update-pkg-manifest
+	sed -ie 's,\(image: cockroachdb/cockroach-operator:\).*,\1$(APP_VERSION),' manifests/operator.yaml
+	git add .
+
+
 .PHONY: release/image
 release/image:
 	DOCKER_REGISTRY=$(DOCKER_REGISTRY) \
@@ -189,7 +196,7 @@ release/image:
 #RED HAT IMAGE BUNDLE
 RH_BUNDLE_REGISTRY?=registry.connect.redhat.com/cockroachdb
 RH_BUNDLE_IMAGE_REPOSITORY?=cockroachdb-operator-bundle
-RH_BUNDLE_VERSION?=1.6.13
+RH_BUNDLE_VERSION?=$(shell echo $(APP_VERSION) | sed 's/^v//')
 RH_DEPLOY_PATH="deploy/certified-metadata-bundle"
 RH_DEPLOY_FULL_PATH="$(RH_DEPLOY_PATH)/cockroach-operator/"
 RH_COCKROACH_DATABASE_IMAGE=registry.connect.redhat.com/cockroachdb/cockroach:v20.2.5
