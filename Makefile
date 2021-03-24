@@ -21,12 +21,11 @@
 DOCKER_REGISTRY?=cockroachdb
 DOCKER_IMAGE_REPOSITORY?=cockroachdb-operator
 VERSION?=$(shell cat version.txt)
-APP_VERSION? = v$(VERSION)
-# Strip the "-rc" suffix, because it's not a valid openshift version pattern
-VERSION_NO_SUFFIX = $(shell echo $(VERSION) | sed 's,-.*,,')
+APP_VERSION?=v$(VERSION)
 GCP_PROJECT?=chris-love-operator-playground
 GCP_ZONE?=us-central1-a
 CLUSTER_NAME?=bazel-test
+COCKROACH_DATABASE_VERSION=v20.2.5
 
 #
 # Unit Testing Targets
@@ -201,10 +200,10 @@ release/image:
 #RED HAT IMAGE BUNDLE
 RH_BUNDLE_REGISTRY?=registry.connect.redhat.com/cockroachdb
 RH_BUNDLE_IMAGE_REPOSITORY?=cockroachdb-operator-bundle
-RH_BUNDLE_VERSION?=$(VERSION_NO_SUFFIX)
+RH_BUNDLE_VERSION?=$(VERSION)
 RH_DEPLOY_PATH="deploy/certified-metadata-bundle"
 RH_DEPLOY_FULL_PATH="$(RH_DEPLOY_PATH)/cockroach-operator/"
-RH_COCKROACH_DATABASE_IMAGE=registry.connect.redhat.com/cockroachdb/cockroach:v20.2.5
+RH_COCKROACH_DATABASE_IMAGE=registry.connect.redhat.com/cockroachdb/cockroach:$(COCKROACH_DATABASE_VERSION)
 RH_OPERATOR_IMAGE?=registry.connect.redhat.com/cockroachdb/cockroachdb-operator:$(APP_VERSION)
 
 # Generate package manifests.
