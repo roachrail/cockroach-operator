@@ -23,12 +23,12 @@ tc_start_block "Variable Setup"
 # for the `metadata` part at the end because Docker tags don't support
 # `+` in the tag name.
 # https://github.com/cockroachdb/cockroach/blob/4c6864b44b9044874488cfedee3a31e6b23a6790/pkg/util/version/version.go#L75
-build_name="$(echo "${NAME}" | grep -E -o '^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[-.0-9A-Za-z]+)?$')"
+build_name="$(echo "${TC_BUILD_BRANCH}" | grep -E -o '^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[-.0-9A-Za-z]+)?$')"
 #                                         ^major           ^minor           ^patch         ^preRelease
 version=$(echo ${build_name} | sed -e 's/^v//' | cut -d- -f 1)
 
 if [[ -z "$build_name" ]] ; then
-    echo "Invalid NAME \"${NAME}\". Must be of the format \"vMAJOR.MINOR.PATCH(-PRERELEASE)?\"."
+    echo "Invalid TC_BUILD_BRANCH \"${TC_BUILD_BRANCH}\". Must be of the format \"vMAJOR.MINOR.PATCH(-PRERELEASE)?\"."
     exit 1
 fi
 
