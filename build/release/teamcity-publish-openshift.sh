@@ -19,7 +19,19 @@ source "$(dirname "${0}")/teamcity-support.sh"
 
 
 tc_start_block "Variable Setup"
-VERSION="v"$(cat version.txt)
+# TODO: the following check can be removed after
+# https://github.com/cockroachdb/cockroach-operator/pull/378 is merged
+# Using the version.txt file is the preferred method, because it the change has
+# to be reviewed. Settin an arbitrary version may break the OpenShift metadata
+# build process.
+if [ -e version.txt ]; then
+  echo "Using version from version.txt"
+  VERSION="v"$(cat version.txt)
+else
+  echo "Using version set by TeamCity"
+  VERSION=$NAME
+fi
+
 # Matching the version name regex from within the cockroach code except
 # for the `metadata` part at the end because Docker tags don't support
 # `+` in the tag name.
@@ -61,6 +73,8 @@ docker_login_with_redhat
 if docker_image_exists "$rhel_registry/$operator_rhel_docker_image_repository:$build_name"; then
   echo "Docker image $rhel_registry/$operator_rhel_docker_image_repository:$build_name already exists"
   if [[ -z "${FORCE}" ]] ; then
+    echo "Use FORCE=1 to force push the docker image."
+    echo "Alternatively you can delete the tag in RedHat connect and rerun the script."
     exit 1
   fi
   echo "Forcing docker push..."
