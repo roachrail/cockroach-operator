@@ -54,7 +54,7 @@ tc_end_block "Variable Setup"
 
 tc_start_block "Make and push docker images"
 configure_docker_creds
-docker_login "$docker_registry" "$OPERATOR_DOCKER_ID" "$OPERATOR_DOCKER_ACCESS_TOKEN"
+docker_login "docker.io" "$OPERATOR_DOCKER_ID" "$OPERATOR_DOCKER_ACCESS_TOKEN"
 
 if docker_image_exists "$docker_registry/$docker_image_repository:$build_name"; then
   echo "Docker image $docker_registry/$docker_image_repository:$build_name already exists"
