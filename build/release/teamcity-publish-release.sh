@@ -31,7 +31,8 @@ if [[ -z "$build_name" ]] ; then
   exit 1
 fi
 
-docker_registry="docker.io/cockroachdb"
+#docker_registry="docker.io/cockroachdb"
+docker_registry="docker.io/roachrail"
 
 if [[ -z "${DRY_RUN}" ]] ; then
   docker_image_repository="cockroach-operator"
