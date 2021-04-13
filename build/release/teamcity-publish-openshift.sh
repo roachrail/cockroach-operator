@@ -38,8 +38,8 @@ fi
 # bundle_rhel_docker_image_repository="ospid-857fe786-3eb7-4508-aafd-cc74c1b1dc24"
 rhel_registry="docker.io/roachrail"
 src_docker_registry="docker.io/roachrail"
-operator_rhel_docker_image_repository="cockroachdb-operator-openshift"
-bundle_rhel_docker_image_repository="cockroachdb-operator-openshift-bundle"
+operator_rhel_docker_image_repository="cockroach-operator-openshift"
+bundle_rhel_docker_image_repository="cockroach-operator-openshift-bundle"
 
 if [[ -z "${DRY_RUN}" ]] ; then
   src_docker_image_repository="cockroach-operator"

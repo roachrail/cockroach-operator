@@ -32,7 +32,7 @@ docker_login() {
   local registry=$1
   local registry_user=$2
   local registry_token=$3
-  echo "${regitry_token}" | docker login --username "${registry_user}" --password-stdin $registry
+  echo "${registry_token}" | docker login --username "${registry_user}" --password-stdin $registry
 }
 
 configure_docker_creds() {
