@@ -36,6 +36,7 @@ fi
 # src_docker_registry="docker.io/cockroachdb"
 # operator_rhel_docker_image_repository="ospid-cf721588-ad8a-4618-938c-5191c5e10ae4"
 # bundle_rhel_docker_image_repository="ospid-857fe786-3eb7-4508-aafd-cc74c1b1dc24"
+rhel_login_registry="docker.io"
 rhel_registry="docker.io/roachrail"
 src_docker_registry="docker.io/roachrail"
 operator_rhel_docker_image_repository="cockroach-operator-openshift"
@@ -52,7 +53,7 @@ tc_end_block "Variable Setup"
 
 tc_start_block "Make and push docker images"
 configure_docker_creds
-docker_login "$rhel_registry" "$OPERATOR_REDHAT_REGISTRY_USER" "$OPERATOR_REDHAT_REGISTRY_KEY"
+docker_login "$rhel_login_registry" "$OPERATOR_REDHAT_REGISTRY_USER" "$OPERATOR_REDHAT_REGISTRY_KEY"
 
 # sanity check
 if docker_image_exists "$rhel_registry/$operator_rhel_docker_image_repository:$build_name"; then
@@ -69,7 +70,7 @@ docker pull "$src_docker_registry/$src_docker_image_repository:$build_name"
 docker tag "$src_docker_registry/$src_docker_image_repository:$build_name" "$rhel_registry/$operator_rhel_docker_image_repository:$build_name"
 docker push "$rhel_registry/$operator_rhel_docker_image_repository:$build_name"
 
-docker_login "$rhel_registry" "$OPERATOR_BUNDLE_REDHAT_REGISTRY_USER" "$OPERATOR_BUNDLE_REDHAT_REGISTRY_KEY"
+docker_login "$rhel_login_registry" "$OPERATOR_BUNDLE_REDHAT_REGISTRY_USER" "$OPERATOR_BUNDLE_REDHAT_REGISTRY_KEY"
 
 make \
   RH_BUNDLE_IMAGE_REPOSITORY=$bundle_rhel_docker_image_repository \
